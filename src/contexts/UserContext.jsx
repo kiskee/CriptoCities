@@ -4,14 +4,23 @@ import { ethers } from "ethers";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    address: null,
-    isConnected: false,
-    provider: null,
-    signer: null,
+  const [user, setUser] = useState(() => {
+    // Intenta obtener el estado del LocalStorage al inicializar
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : {
+      address: null,
+      isConnected: false,
+      provider: null,
+      signer: null,
+    };
   });
   const [city, setCity] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    // Guarda el estado en LocalStorage cada vez que cambia
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user]);
 
   const connectWalletHandler = async () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
@@ -43,6 +52,7 @@ export const UserProvider = ({ children }) => {
       provider: null,
       signer: null,
     });
+    localStorage.removeItem('user');
     setCity(null);
     setErrorMessage(null);
   };
