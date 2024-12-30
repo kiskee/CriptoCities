@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../contexts/UserContext";
+import { toast } from 'react-hot-toast';
 
 export default function Wallet() {
   const {
@@ -10,6 +11,13 @@ export default function Wallet() {
     errorMessage,
     fetchCityData,
   } = useContext(UserContext);
+
+   // Mostrar el error como notificación
+   useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage); // Muestra el mensaje como un Toast
+    }
+  }, [errorMessage]); // Solo se ejecuta cuando cambia errorMessage
 
   const handleFetchCityData = () => {
     if (user.signer) {
@@ -22,10 +30,11 @@ export default function Wallet() {
   /*
     {city && <p>Nombre de la Ciudad: {city.name}</p>}
           <button onClick={handleFetchCityData}>Obtener datos de la ciudad</button>
+           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     */
   return (
     <div>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+       
       {user.isConnected ? (
         <div>
           <p

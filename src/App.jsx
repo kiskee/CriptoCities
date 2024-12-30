@@ -4,10 +4,12 @@ import Layaut from "./components/Layaut";
 import Home from "./pages/Home";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { UserProvider } from "./contexts/UserContext";
+import { Toaster } from 'react-hot-toast';
 
 export default function App() {
   return (
     <Router>
+      <Toaster />
       <UserProvider>
         <Layaut>
           <SpeedInsights />
