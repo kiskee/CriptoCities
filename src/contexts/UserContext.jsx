@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { ethers } from 'ethers';
+import React, { createContext, useState, useEffect } from "react";
+import { ethers } from "ethers";
 
 export const UserContext = createContext();
 
@@ -12,32 +12,6 @@ export const UserProvider = ({ children }) => {
   });
   const [city, setCity] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
-
-  useEffect(() => {
-    const checkConnection = async () => {
-        if (window.ethereum) {
-            try {
-                const provider = new ethers.BrowserProvider(window.ethereum);
-                const accounts = await provider.send("eth_requestAccounts", []);
-                const signer = provider.getSigner();
-
-                setUser({
-                    address: accounts[0],
-                    isConnected: true,
-                    provider: provider,
-                    signer: signer
-                })
-                // Aquí podrías obtener datos de la ciudad si el usuario ya tiene una
-                //await fetchCityData(accounts[0], signer);
-            } catch (error) {
-                console.error("Error al conectar o verificar conexión:", error);
-                setErrorMessage(error.message);
-            }
-        }
-    }
-    checkConnection();
-  }, [])
 
   const connectWalletHandler = async () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
@@ -52,15 +26,13 @@ export const UserProvider = ({ children }) => {
           provider: provider,
           signer: signer,
         });
-        console.log(accounts[0])
-        // Aquí podrías obtener los datos iniciales de la ciudad del usuario
+        // Lógica para obtener datos de la ciudad (si aplica)
         //await fetchCityData(accounts[0], signer);
-
       } catch (error) {
         setErrorMessage(error.message);
       }
     } else {
-      setErrorMessage('Por favor instala MetaMask!');
+      setErrorMessage("Por favor instala MetaMask!");
     }
   };
 
@@ -71,12 +43,9 @@ export const UserProvider = ({ children }) => {
       provider: null,
       signer: null,
     });
-    setCity(null); // Limpiar los datos de la ciudad también
-    setErrorMessage(null); // Limpiar mensajes de error
+    setCity(null);
+    setErrorMessage(null);
   };
-
-  
-
 
   const fetchCityData = async (address, signer) => {
     // Aquí iría la lógica para obtener los datos de la ciudad desde la blockchain
@@ -95,8 +64,16 @@ export const UserProvider = ({ children }) => {
     setCity({ name: "Ciudad Ejemplo", population: 1000, owner: address });
   };
 
-
-  const value = { user, city, setCity, connectWalletHandler, disconnectWalletHandler, errorMessage, setErrorMessage, fetchCityData };
+  const value = {
+    user,
+    city,
+    setCity,
+    connectWalletHandler,
+    disconnectWalletHandler,
+    errorMessage,
+    setErrorMessage,
+    fetchCityData,
+  };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
