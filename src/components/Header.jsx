@@ -1,4 +1,5 @@
 import logo from '../assets/logo.png'
+import Wallet from './Wallet'
 
 export default function Header() {
   // body
@@ -63,6 +64,9 @@ export default function Header() {
               >
                 Contact
               </a>
+            </li>
+            <li>
+              <Wallet/>
             </li>
           </ul>
         </nav>
