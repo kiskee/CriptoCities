@@ -15,7 +15,9 @@ export default function Wallet() {
    // Mostrar el error como notificación
    useEffect(() => {
     if (errorMessage) {
-      toast.error(errorMessage); // Muestra el mensaje como un Toast
+      toast.error(errorMessage,  {
+        position: 'top-right',
+      }); // Muestra el mensaje como un Toast
     }
   }, [errorMessage]); // Solo se ejecuta cuando cambia errorMessage
 
