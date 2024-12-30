@@ -5,7 +5,7 @@ export default function Header() {
   // body
   return (
     <header className="bg-black bg-opacity-80 text-white shadow-lg">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between md:flex-col sm:flex-col ss:flex-col md:justify-center">
         {/* Título */}
         <div className="flex items-center relative z-10">
                 <img
@@ -32,7 +32,7 @@ export default function Header() {
 
         {/* Navegación */}
         <nav>
-          <ul className="flex space-x-6">
+          <ul className="flex space-x-4 flex-row ss:flex-col ss:space-4 ss:text-center">
             <li>
               <a
                 href="/"
